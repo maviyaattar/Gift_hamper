@@ -11,6 +11,103 @@ window.addEventListener('load', () => {
 });
 
 /* ========================================
+   Floating Hearts Animation
+   ======================================== */
+function createFloatingHearts() {
+    const container = document.getElementById('floatingHearts');
+    const heartSymbols = ['❤️', '💕', '💖', '💗', '💓', '💝'];
+    
+    setInterval(() => {
+        const heart = document.createElement('div');
+        heart.className = 'floating-heart';
+        heart.textContent = heartSymbols[Math.floor(Math.random() * heartSymbols.length)];
+        heart.style.left = Math.random() * 100 + '%';
+        heart.style.animationDuration = (Math.random() * 5 + 8) + 's';
+        heart.style.fontSize = (Math.random() * 15 + 15) + 'px';
+        
+        container.appendChild(heart);
+        
+        setTimeout(() => {
+            heart.remove();
+        }, 12000);
+    }, 800);
+}
+
+/* ========================================
+   Rose Petals Animation
+   ======================================== */
+function createRosePetals() {
+    const container = document.getElementById('rosePetals');
+    const petalSymbols = ['🌹', '🌺', '🌸', '💐'];
+    
+    setInterval(() => {
+        const petal = document.createElement('div');
+        petal.className = 'rose-petal';
+        petal.textContent = petalSymbols[Math.floor(Math.random() * petalSymbols.length)];
+        petal.style.left = Math.random() * 100 + '%';
+        petal.style.animationDuration = (Math.random() * 5 + 10) + 's';
+        petal.style.fontSize = (Math.random() * 10 + 12) + 'px';
+        petal.style.animationDelay = Math.random() * 2 + 's';
+        
+        container.appendChild(petal);
+        
+        setTimeout(() => {
+            petal.remove();
+        }, 15000);
+    }, 1200);
+}
+
+// Start animations after page load
+window.addEventListener('load', () => {
+    setTimeout(() => {
+        createFloatingHearts();
+        createRosePetals();
+    }, 1000);
+});
+
+/* ========================================
+   Image Skeleton Loader
+   ======================================== */
+function initImageLoading() {
+    const images = document.querySelectorAll('.gallery-image img');
+    
+    images.forEach(img => {
+        if (img.complete) {
+            // Image already loaded
+            img.classList.add('loaded');
+            const skeleton = img.previousElementSibling;
+            if (skeleton && skeleton.classList.contains('skeleton-loader')) {
+                skeleton.style.display = 'none';
+            }
+        } else {
+            // Wait for image to load
+            img.addEventListener('load', function() {
+                this.classList.add('loaded');
+                const skeleton = this.previousElementSibling;
+                if (skeleton && skeleton.classList.contains('skeleton-loader')) {
+                    setTimeout(() => {
+                        skeleton.style.opacity = '0';
+                        setTimeout(() => {
+                            skeleton.style.display = 'none';
+                        }, 300);
+                    }, 500);
+                }
+            });
+            
+            img.addEventListener('error', function() {
+                const skeleton = this.previousElementSibling;
+                if (skeleton && skeleton.classList.contains('skeleton-loader')) {
+                    skeleton.style.display = 'none';
+                }
+            });
+        }
+    });
+}
+
+// Initialize image loading
+document.addEventListener('DOMContentLoaded', initImageLoading);
+
+/* ========================================
    Smooth Scroll for Navigation Links
    ======================================== */
 
