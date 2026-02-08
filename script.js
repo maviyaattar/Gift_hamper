@@ -180,8 +180,6 @@ function updateScrollProgress() {
     progressBar.style.width = `${scrollProgress}%`;
 }
 
-window.addEventListener('scroll', updateScrollProgress);
-
 /* ========================================
    Animated Counter for Price (Optional)
    ======================================== */
@@ -244,7 +242,8 @@ document.querySelectorAll('.feature-card, .gallery-card').forEach(card => {
         const rotateX = (y - centerY) / 20;
         const rotateY = (centerX - x) / 20;
         
-        this.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-10px)`;
+        // Apply only the 3D tilt effect; let CSS handle translateY
+        this.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
     });
     
     card.addEventListener('mouseleave', function() {
@@ -269,9 +268,8 @@ function debounce(func, wait) {
     };
 }
 
-// Apply debounce to scroll-heavy functions
+// Apply debounced scroll progress from the start
 const debouncedScrollProgress = debounce(updateScrollProgress, 10);
-window.removeEventListener('scroll', updateScrollProgress);
 window.addEventListener('scroll', debouncedScrollProgress);
 
 /* ========================================
