@@ -69,36 +69,36 @@ window.addEventListener('load', () => {
    Image Skeleton Loader
    ======================================== */
 function initImageLoading() {
-    const images = document.querySelectorAll('.gallery-image img');
+    const galleryImages = document.querySelectorAll('.gallery-image');
     
-    images.forEach(img => {
-        if (img.complete) {
+    galleryImages.forEach(container => {
+        const img = container.querySelector('img');
+        const skeleton = container.querySelector('.skeleton-loader');
+        
+        if (!img || !skeleton) return;
+        
+        if (img.complete && img.naturalHeight !== 0) {
             // Image already loaded
             img.classList.add('loaded');
-            const skeleton = img.previousElementSibling;
-            if (skeleton && skeleton.classList.contains('skeleton-loader')) {
+            skeleton.classList.add('hidden');
+            setTimeout(() => {
                 skeleton.style.display = 'none';
-            }
+            }, 300);
         } else {
             // Wait for image to load
             img.addEventListener('load', function() {
                 this.classList.add('loaded');
-                const skeleton = this.previousElementSibling;
-                if (skeleton && skeleton.classList.contains('skeleton-loader')) {
-                    setTimeout(() => {
-                        skeleton.style.opacity = '0';
-                        setTimeout(() => {
-                            skeleton.style.display = 'none';
-                        }, 300);
-                    }, 500);
-                }
+                skeleton.classList.add('hidden');
+                setTimeout(() => {
+                    skeleton.style.display = 'none';
+                }, 300);
             });
             
             img.addEventListener('error', function() {
-                const skeleton = this.previousElementSibling;
-                if (skeleton && skeleton.classList.contains('skeleton-loader')) {
+                skeleton.classList.add('hidden');
+                setTimeout(() => {
                     skeleton.style.display = 'none';
-                }
+                }, 300);
             });
         }
     });

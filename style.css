@@ -562,7 +562,6 @@ h1, h2, h3, h4, h5, h6 {
     transform: scale(1.15);
 }
 
-/* Skeleton Loader */
 .skeleton-loader {
     position: absolute;
     top: 0;
@@ -578,6 +577,8 @@ h1, h2, h3, h4, h5, h6 {
     background-size: 200% 100%;
     animation: shimmer 1.5s infinite;
     z-index: 3;
+    opacity: 1;
+    transition: opacity 0.3s ease;
 }
 
 @keyframes shimmer {
@@ -589,9 +590,9 @@ h1, h2, h3, h4, h5, h6 {
     }
 }
 
-.gallery-image img.loaded + .skeleton-loader,
-.gallery-image img[src]:not([src=""]) ~ .skeleton-loader {
-    display: none;
+.skeleton-loader.hidden {
+    opacity: 0;
+    pointer-events: none;
 }
 
 .gallery-overlay {
@@ -821,8 +822,6 @@ h1, h2, h3, h4, h5, h6 {
     50% {
         transform: scale(1.15);
     }
-}
-    margin-bottom: 20px;
 }
 
 .offer-item h3 {
